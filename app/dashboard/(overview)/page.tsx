@@ -5,17 +5,21 @@ import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { CardsSkeleton, LatestInvoicesSkeleton, RevenueChartSkeleton } from '@/app/ui/skeletons';
 import { Metadata } from "next";
+import { auth } from '@/auth';
 
 export const metadata: Metadata = {
   title: 'Home',
 };
  
 export default async function Page() {
+  const session = await auth()
+  console.log('Session: ', session?.user)
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Dashboad
       </h1>
+      {session?.user ? <span className="font-semibold">Welcome {session.user.email} !</span> : <span className="font-semibold">Not Logged in</span>}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />

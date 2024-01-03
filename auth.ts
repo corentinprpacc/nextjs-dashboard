@@ -17,7 +17,7 @@ async function getUser(email: string): Promise<User | undefined> {
     }
   }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { signIn, signOut, handlers: { GET, POST }, auth } = NextAuth({
   ...authConfig,
   providers: [Credentials({
     async authorize(credentials) {
@@ -37,5 +37,6 @@ export const { auth, signIn, signOut } = NextAuth({
   }), GithubProvider({
     clientId: process.env.GITHUB_ID,
     clientSecret: process.env.GITHUB_SECRET,
-  })]
+  })],
+  secret: process.env.AUTH_SECRET
 });

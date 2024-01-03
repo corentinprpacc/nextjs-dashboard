@@ -1,5 +1,6 @@
 import AcmeLogo from '@/app/ui/acme-logo';
 import LoginForm from '@/app/ui/login-form';
+import { signIn } from '@/auth';
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,6 +17,16 @@ export default function LoginPage() {
           </div>
         </div>
         <LoginForm />
+        <form action={async () => {
+            'use server';
+            await signIn("github", { callbackUrl: "/" });
+          }}>
+          <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+            <div className="hidden md:block">
+              Sign In With GitHub
+            </div>
+          </button>
+        </form>
       </div>
     </main>
   );
